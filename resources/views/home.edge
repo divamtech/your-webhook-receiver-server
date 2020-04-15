@@ -1,0 +1,63 @@
+@layout('layout.app')
+
+@section('content')
+
+  <div class="d-flex flex-row justify-content-between" style="padding: 10px 0;">
+    <p>
+      Welcome <strong>{{ auth.user.name }}</strong>!
+    </p>  
+    <div>
+      <a href="{{ route('webhooks.logs') }}" class="button is-info is-uppercase">All Logs</a>
+      <a href="{{ route('webhooks') }}/new" class="button is-primary is-uppercase">+ Add New</a>
+    </div>
+  </div>
+  
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Slug</th>
+      <th>Auth</th>
+{{--  
+      <th>Total Count</th>
+      <th>Running Count</th>
+        --}}
+      <th>Date</th>
+    </tr>
+    @each(webhook in webhooks)
+    <tr onclick="document.location.href='{{route('webhook.logs', webhook)}}'">
+      <td>{{webhook.id}}</td>
+      
+      <td>
+        <img src="/tick_{{webhook.is_active ? 'yes' : 'no'}}.png" width="20"/>
+        <a href="{{ route('webhook.get', webhook) }}">{{webhook.name}}</a><br/>
+        <a href="{{ route('webhook.logs', webhook) }}" class="button is-info link-font" style="margin-top: 5px;">Logs</<a>
+      </td>
+      
+      <td>
+      {{webhook.slug}}<br/>
+        <button onclick="tapToCopy('{{webhookHost}}{{webhook.slug}}')" class="btn btn-warning link-font">Copy URL</button>
+      </td>
+      
+      <td>
+        <div class="popup">
+          <button onclick="togglePopup('authKeyID{{webhook.id}}')" >{{webhook.auth}}</button>
+          <span class="popuptext" id="authKeyID{{webhook.id}}">
+            <button onclick="hidePopup('authKeyID{{webhook.id}}')">
+              X</button>&nbsp;&nbsp;
+            Auth:&nbsp;{{webhook.auth}}<br/>
+            Key1:&nbsp{{webhook.auth_key1}}<br/>
+            Key2:&nbsp{{webhook.auth_key2}}
+          </span>
+        </div>
+      </td>
+{{--        
+      <td>{{webhook.total_hit_counts}}</td>
+      <td>{{webhook.running_hit_counts}}</td>
+        --}}
+      <td>{{webhook.updated_at}}</td>
+    </tr>
+    @endeach
+  </table>
+
+@endsection

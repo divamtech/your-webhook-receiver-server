@@ -1,0 +1,53 @@
+{
+	"name": "your-webhook-receiver-server",
+	"description": "Your webhook receiver server to test what is coming like request bin",
+	"version": "1.0.0",
+	"license": "MIT",
+	"private": false,
+	"author": {
+		"name": "Gaurav D. Sharma",
+		"email": "er.gauravds@gmail.com",
+		"url": "https://github.com/dayitv89/your-webhook-receiver-server"
+	},
+	"bugs": {
+		"url": "https://github.com/dayitv89/your-webhook-receiver-server/issues"
+	},
+	"homepage": "https://github.com/dayitv89/your-webhook-receiver-server",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dayitv89/your-webhook-receiver-server.git"
+	},
+	"keywords": [
+		"webhook",
+		"adonisjs",
+		"request-bin",
+		"request receiver"
+	],
+	"adonis-version": "4.1.0",
+	"main": "server.js",
+	"scripts": {
+		"start": "adonis serve",
+		"start-dev": "adonis serve --dev",
+		"test": "node ace test"
+	},
+	"dependencies": {
+		"@adonisjs/ace": "^5.0.8",
+		"@adonisjs/auth": "^3.0.7",
+		"@adonisjs/bodyparser": "^2.0.5",
+		"@adonisjs/cors": "^1.0.7",
+		"@adonisjs/fold": "^4.0.9",
+		"@adonisjs/framework": "^5.0.9",
+		"@adonisjs/http-logger": "^1.0.0",
+		"@adonisjs/ignitor": "^2.0.8",
+		"@adonisjs/lucid": "^6.1.3",
+		"@adonisjs/session": "^1.0.27",
+		"@adonisjs/shield": "^1.0.8",
+		"crypto-js": "^4.0.0",
+		"mysql": "^2.18.1",
+		"sqlite3": "^4.1.1"
+	},
+	"devDependencies": {},
+	"autoload": {
+		"App": "./app"
+	}
+}

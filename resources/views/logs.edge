@@ -1,0 +1,71 @@
+@layout('layout.app')
+
+@section('content')
+
+  <div class="d-flex flex-row justify-content-between" style="padding: 10px 0;">
+    <p>
+      <strong>{{ webhook.name }}</strong>
+    </p>  
+    <a href="{{ webhook.id == 0 ? route('logs.deleteAll') : route('logs.deleteAllOfOne', webhook) }}" class="button is-danger is-uppercase">Delete All Logs</a>
+  </div>
+  
+  <table class="table">
+    <tr>
+      <th>ID</th>
+      @if(webhook.id == 0)
+        <th>Webhook ID</th>
+      @endif
+      <th>Request Header</th>
+      <th>Request Body</th>
+      <th>Reply Code</th>
+      <th>Reply Body</th>
+      <th>Date</th>
+    </tr>
+    @each(log in logs)
+    <tr>
+      <td>
+      <a href="{{ route('webhooks.log.delete', log) }}?path={{webhook.id == 0 ? route('webhooks.logs'): route('webhook.logs', webhook)}}" class="button is-danger link-font" style="margin-top: 5px;">Delete {{log.id}}</<a>
+      </td>
+
+      @if(webhook.id == 0)
+        <td>{{log.webhook_id}}</td>
+      @endif
+
+      <td>
+        <div class="popup">
+          <button onclick="togglePopup('reqHead{{log.id}}')">Show</button>
+          <span class="popuptext" id="reqHead{{log.id}}">
+            <button onclick="hidePopup('reqHead{{log.id}}')">X</button><br/>
+            <pre>{{{toJSON(log.request_headers)}}}</pre>
+          </span>
+        </div>
+      </td>
+
+      <td>
+        <div class="popup">
+          <button onclick="togglePopup('reqBody{{log.id}}')">Show</button>
+          <span class="popuptext" id="reqBody{{log.id}}">
+            <button onclick="hidePopup('reqBody{{log.id}}')">X</button><br/>
+            <pre>{{{toJSON(log.request_body)}}}</pre>
+          </span>
+        </div>
+      </td>
+
+      <td>{{log.reply_code}} <img src="/tick_{{log.reply_code == 200 ? 'yes' : 'no'}}.png" width="20"/></td>
+
+      <td>
+        <div class="popup">
+          <button onclick="togglePopup('replyBody{{log.id}}')">Show</button>
+          <span class="popuptext" id="replyBody{{log.id}}">
+            <button onclick="hidePopup('replyBody{{log.id}}')">X</button><br/>
+            <pre>{{{toJSON(log.reply_body)}}}</pre>
+          </span>
+        </div>
+      </td>
+
+      <td>{{log.updated_at}}</td>
+    </tr>
+    @endeach
+  </table>
+
+@endsection
