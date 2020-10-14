@@ -7,8 +7,7 @@
   <title>Your Webhook Receiver</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
   <script
-  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
   crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
@@ -70,6 +69,7 @@
 /* The actual popup (appears on top) */
 .popup .popuptext {
   visibility: hidden;
+  display: none;
   width: auto;
   background-color: #555;
   color: #fff;
@@ -96,6 +96,7 @@
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
 .popup .show {
   visibility: visible;
+  display: block;
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s
 }
@@ -118,12 +119,6 @@
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">Your Webhook Receiver</a>
-
-        <button class="button navbar-burger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
       </div>
 
       <div class="navbar-menu">
@@ -161,5 +156,18 @@
     event.stopPropagation();
     });
   </script>
+
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">
+    <a href="https://github.com/dayitv89/your-webhook-receiver-server" target="_new">Fork this repo on GitHub</a>
+    &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Crafted with ❤️ by <a href="https://github.com/dayitv89" target="_new">Gaurav D. Sharma</a>. 
+  </div>
+  <!-- Copyright -->
+</footer>
+<!-- Footer -->
+
+
 </body>
 </html>

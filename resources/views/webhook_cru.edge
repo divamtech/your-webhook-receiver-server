@@ -71,6 +71,22 @@
           <input type="checkbox" name="is_active" value="1" {{webhook.is_active || !isUpdate ? "checked" : ""}}>&nbsp;<label class="label">Is Active</label>
         </div>
 
+        <div class="field">
+          <label class="label">Default Reply Code</label>
+          <div class="control">
+            <select name="default_reply_code">
+              @each(httpCode in httpCodes)
+                @if(isUpdate)
+                  <option {{{ webhook.default_reply_code == httpCode.code ? 'value="'+httpCode.code+'" selected' : 'value="'+httpCode.code+'"' }}}>
+                @else
+                  <option {{{ 200 == httpCode.code ? 'value="'+httpCode.code+'" selected' : 'value="'+httpCode.code+'"' }}}>
+                @endif
+                    {{httpCode.code}} - {{ httpCode.message }}</option>
+              @endeach
+            </select>
+          </div>
+        </div>
+
         <br/>
         <div class="control has-text-centered">
           <button type="submit" class="button is-primary is-uppercase">{{isUpdate ? 'Update' : 'Create'}}</button>

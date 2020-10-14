@@ -5,8 +5,6 @@ const Hash = use('Hash');
 
 class UserController {
 	async showLoginForm({ view }) {
-		const users = await User.all();
-		console.log(users.toJSON());
 		return view.render('login');
 	}
 

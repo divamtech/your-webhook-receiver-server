@@ -2,8 +2,10 @@
 
 const Webhook = use('App/Models/Webhook');
 const WebhookReceive = use('App/Models/WebhookReceive');
+const httpCodes = require('./http_codes');
 
 const webhookHost = `${process.env.SELF_HOST || 'http://localhost:3535'}/webhooks/`;
+const FETCH_LIMIT = 30;
 
 class WebhookController {
 	async index({ view }) {
@@ -18,7 +20,7 @@ class WebhookController {
 			if (isUpdate) {
 				webhook = await Webhook.find(id);
 			}
-			return view.render('webhook_cru', { webhook, isUpdate });
+			return view.render('webhook_cru', { webhook, isUpdate, httpCodes });
 		} catch (err) {
 			return response.route('webhooks');
 		}
@@ -27,8 +29,21 @@ class WebhookController {
 	async createUpdateOne({ params, request, response }) {
 		let webhook = null;
 		const { isUpdate, id } = this._checkID(params);
-		const data = request.only(['name', 'slug', 'auth', 'auth_key1', 'auth_key2', 'is_active']);
+		const data = request.only([
+			'name',
+			'slug',
+			'auth',
+			'auth_key1',
+			'auth_key2',
+			'is_active',
+			'default_reply_code'
+		]);
 		data.is_active = !!data.is_active;
+		if (!data.is_active) {
+			data.default_reply_code = 423;
+		} else if (!this._codeExist(data.default_reply_code)) {
+			data.default_reply_code = 200;
+		}
 		if (isUpdate) {
 			webhook = await Webhook.find(id);
 			webhook.merge(data);
@@ -39,25 +54,59 @@ class WebhookController {
 		return response.route('webhooks');
 	}
 
-	async logs({ params, response, view }) {
+	async updateWebhookReplyCode({ params, response }) {
+		try {
+			const { id, code } = params;
+			if (this._codeExist(code)) {
+				const webhook = await Webhook.find(id);
+				if (!webhook.is_active) {
+					return response.status(400).send('webhook is not active. Edit webhook and then activate it first');
+				}
+				webhook.default_reply_code = code;
+				await webhook.save();
+				return response.send('done');
+			}
+		} catch (err) {}
+		return response.status(400).send('something went wrong.');
+	}
+
+	async logs({ params, request, response, view }) {
 		const { valid, id } = this._checkID(params);
 		if (valid) {
 			const webhook = await Webhook.find(id);
-			const logs = await WebhookReceive.query()
-				.where('webhook_id', id)
-				.orderBy('id', 'desc')
-				.fetch();
-			return view.render('logs', { logs: logs.toJSON(), webhook });
+			const query = request.get();
+			let logs = [];
+			if (query.list == 'all') {
+				logs = await WebhookReceive.query()
+					.where('webhook_id', id)
+					.orderBy('id', 'desc')
+					.fetch();
+			} else {
+				logs = await WebhookReceive.query()
+					.where('webhook_id', id)
+					.orderBy('id', 'desc')
+					.limit(FETCH_LIMIT)
+					.fetch();
+			}
+			return view.render('logs', { logs: logs.toJSON(), webhook, httpCodes });
 		}
 		return response.route('webhooks');
 	}
 
-	async allLogs({ view }) {
-		const logs = await WebhookReceive.query()
-			.orderBy('id', 'desc')
-			.limit(30)
-			.fetch();
-		return view.render('logs', { logs: logs.toJSON(), webhook: { id: 0, name: 'All webhooks' } });
+	async allLogs({ view, request }) {
+		const query = request.get();
+		let logs = [];
+		if (query.list == 'all') {
+			logs = await WebhookReceive.query()
+				.orderBy('id', 'desc')
+				.fetch();
+		} else {
+			logs = await WebhookReceive.query()
+				.orderBy('id', 'desc')
+				.limit(FETCH_LIMIT)
+				.fetch();
+		}
+		return view.render('logs', { logs: logs.toJSON() });
 	}
 
 	async deleteLog({ params, request, response }) {
@@ -87,41 +136,19 @@ class WebhookController {
 		return response.route('webhooks');
 	}
 
-	async receiver({ params, request, response }) {
-		let replyCode = 200;
-		let replyBody = { message: 'Yupiee! I got the data' };
-		let webhookID = null;
-		try {
-			const slug = params.slug;
-			const webhook = await Webhook.findBy('slug', slug);
-			webhookID = webhook.id;
-			if (!webhook.is_active) {
-				replyCode = 423;
-				replyBody = { message: 'webhooks has been disabled.' };
-			}
-		} catch (err) {
-			replyCode = 404;
-			replyBody = { message: 'webhooks not available' };
-		}
-
-		const data = {
-			webhook_id: webhookID,
-			request_headers: request.headers(),
-			request_body: request.body,
-			reply_code: replyCode,
-			reply_body: replyBody
-		};
-		await WebhookReceive.create(data);
-
-		return response.status(replyCode).json(replyBody);
-	}
-
 	_checkID(params) {
 		if (params.id != 'new' && !isNaN(parseInt(params.id))) {
 			return { valid: true, isUpdate: true, id: parseInt(params.id) };
 		} else {
 			return { valid: true, isUpdate: false, id: 0 };
 		}
+	}
+
+	_codeExist(code) {
+		if (isNaN(parseInt(code))) {
+			return false;
+		}
+		return Object.keys(httpCodes).includes(code);
 	}
 }
 

@@ -3,16 +3,64 @@
 @section('content')
 
   <div class="d-flex flex-row justify-content-between" style="padding: 10px 0;">
-    <p>
-      <strong>{{ webhook.name }}</strong>
-    </p>  
-    <a href="{{ webhook.id == 0 ? route('logs.deleteAll') : route('logs.deleteAllOfOne', webhook) }}" class="button is-danger is-uppercase">Delete All Logs</a>
+    
+    @if(!!webhook.id)
+      <p><strong>{{ webhook.name }}</strong></p>
+      <div class="control">
+        <script>
+          function changeStatusCode(text) {
+            var current_reply_code = $("#current_reply_code").val();
+            var default_reply_code = $("#default_reply_code").val();
+            if (current_reply_code == default_reply_code) {
+              alert("Yupiee, current reply code is: " + current_reply_code);
+            } else {
+              var url = "{{ route('webhook.updateWebhookReplyCode', {id: webhook.id, code: 'REPLY_CODE'}) }}".replace('REPLY_CODE', default_reply_code)
+              $.ajax({
+                  url: url, 
+                  success: function (data) {
+                      $("#current_reply_code").val(default_reply_code)
+                      alert("Yupiee, current reply code is: " + default_reply_code);
+                  },
+                  cache: false
+              }).fail(function (jqXHR, textStatus, error) {
+                  $("#default_reply_code").val(current_reply_code)
+                  alert(textStatus + ': ' + jqXHR.responseText || error);
+              });
+            }
+          }
+        </script>
+        
+        <input type="hidden" id="current_reply_code" name="current_reply_code" value="{{ webhook.default_reply_code }}" />
+        <select id="default_reply_code" name="default_reply_code">
+          @each(httpCode in httpCodes)
+              <option {{{ webhook.default_reply_code == httpCode.code ? 'value="'+httpCode.code+'" selected' : 'value="'+httpCode.code+'"' }}}>
+                {{httpCode.code}} - {{ httpCode.message }}</option>
+          @endeach
+        </select>
+        <div style="margin-top: 5px;">
+          <button class="button is-warning is-uppercase" onclick="changeStatusCode()">Update</button>
+        </div>
+      </div>
+      @else
+        <p><strong>All Webhooks</strong></p> 
+      @endif
+    
+    <div>
+      @if(!!webhook) 
+        <a href="{{ route('webhook.get', webhook) }}?list=all" class="button is-primary is-uppercase">Edit Webhook</a>
+        <a href="{{ route('webhook.logs', webhook) }}?list=all" class="button is-info is-uppercase">Show All</a>
+        <a href="{{ route('logs.deleteAllOfOne', webhook) }}" class="button is-danger is-uppercase">Delete All</a>
+      @else
+        <a href="{{ route('webhooks.logs') }}?list=all" class="button is-info is-uppercase">Show All</a>
+        <a href="{{ route('logs.deleteAll') }}" class="button is-danger is-uppercase">Delete All</a>
+      @endif
+    </div> 
   </div>
   
   <table class="table">
     <tr>
       <th>ID</th>
-      @if(webhook.id == 0)
+      @if(!webhook)
         <th>Webhook ID</th>
       @endif
       <th>Request Header</th>
@@ -21,13 +69,14 @@
       <th>Reply Body</th>
       <th>Date</th>
     </tr>
+
     @each(log in logs)
     <tr>
       <td>
-      <a href="{{ route('webhooks.log.delete', log) }}?path={{webhook.id == 0 ? route('webhooks.logs'): route('webhook.logs', webhook)}}" class="button is-danger link-font" style="margin-top: 5px;">Delete {{log.id}}</<a>
+        <a href="{{ route('webhooks.log.delete', log) }}?path={{!webhook ? route('webhooks.logs'): route('webhook.logs', webhook)}}" class="button is-danger link-font" style="margin-top: 5px;">Delete {{log.id}}</<a>
       </td>
 
-      @if(webhook.id == 0)
+      @if(!webhook)
         <td>{{log.webhook_id}}</td>
       @endif
 
@@ -51,7 +100,9 @@
         </div>
       </td>
 
-      <td>{{log.reply_code}} <img src="/tick_{{log.reply_code == 200 ? 'yes' : 'no'}}.png" width="20"/></td>
+      <td>
+       <img src="/tick_{{200 <= log.reply_code && log.reply_code < 300 ? 'yes' : 'no'}}.png" width="15" /> {{log.reply_code}} 
+      </td>
 
       <td>
         <div class="popup">
@@ -66,6 +117,7 @@
       <td>{{log.updated_at}}</td>
     </tr>
     @endeach
+
   </table>
 
 @endsection

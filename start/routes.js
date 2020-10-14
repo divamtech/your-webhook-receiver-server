@@ -17,7 +17,7 @@
 const Route = use('Route');
 
 Route.get('/', 'UserController.home').as('home');
-Route.get('login', 'UserController.showLoginForm').middleware(['authRedirectToHome']);
+Route.get('login', 'UserController.showLoginForm');
 Route.post('login', 'UserController.login').as('login');
 Route.get('logout', 'UserController.logout');
 
@@ -29,10 +29,14 @@ Route.group(() => {
 	Route.get('/logs/delete/:id', 'WebhookController.deleteAllLogsOfOne').as('logs.deleteAllOfOne');
 	Route.get('/:id', 'WebhookController.getOne').as('webhook.get');
 	Route.post('/:id', 'WebhookController.createUpdateOne').as('webhook.createUpdate');
+	Route.get('/:id/update_status_code/:code', 'WebhookController.updateWebhookReplyCode').as(
+		'webhook.updateWebhookReplyCode'
+	);
 	Route.get('/:id/logs', 'WebhookController.logs').as('webhook.logs');
 	Route.get('/new', 'WebhookController.new');
 })
 	.prefix('admin/webhooks')
-	.middleware(['auth']);
+	.middleware(['authDirectToHome', 'auth']);
 
-Route.post('webhooks/:slug', 'WebhookController.receiver');
+Route.get('webhooks/:slug', 'WebhookReceiverController.receiver');
+Route.post('webhooks/:slug', 'WebhookReceiverController.receiver');
