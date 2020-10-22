@@ -17,6 +17,18 @@
 |     Make sure to pass relative path from the project root.
 */
 
+if (process.env.CREATE_ENV == '1') {
+  const fs = require('fs')
+  try {
+    if (!fs.existsSync('.env') && fs.existsSync('.env.example')) {
+      var data = fs.readFileSync('.env.example');
+      fs.writeFileSync('.env', data);
+    }
+  } catch(err) {
+    console.error(err)
+  }
+}
+
 const { Ignitor } = require('@adonisjs/ignitor')
 
 new Ignitor(require('@adonisjs/fold'))
