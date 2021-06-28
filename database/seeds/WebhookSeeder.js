@@ -42,7 +42,7 @@ class WebhookSeeder {
 				auth: 'HMAC-SHA1',
 				auth_key1: '3da541559918a808c2402bba5012f6c60b27661c',
 				auth_key2: '92429d82a41e930486c6de5ebda9602d55c39986',
-				is_active: false
+				is_active: true
 			},
 			{
 				name: 'Webhook E',
@@ -50,7 +50,15 @@ class WebhookSeeder {
 				auth: 'HMAC-SHA256',
 				auth_key1: 'affff7ff15ea7649eaf95ddc119db9a4752abbb40c7af701e06275a1fe3c690d',
 				auth_key2: '050b3f5a76caf1778ac389eefb766b872d51b57ed157f49615db251473eddb6c',
-				is_active: false
+				is_active: true
+			},
+			{
+				name: 'Events',
+				slug: 'events',
+				auth: 'basic',
+				auth_key1: 'userX',
+				auth_key2: 'passwordY',
+				is_active: true
 			}
 		]);
 	}
