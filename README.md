@@ -1,6 +1,6 @@
 # Your Webhook Receiver Server
 
-Your webhook receiver server to test what is coming like request bin
+Your webhook receiver server to test what is coming like request bin.
 
 ## Setup
 
