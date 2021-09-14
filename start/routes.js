@@ -38,5 +38,4 @@ Route.group(() => {
 	.prefix('admin/webhooks')
 	.middleware(['authDirectToHome', 'auth']);
 
-Route.get('webhooks/:slug', 'WebhookReceiverController.receiver');
-Route.post('webhooks/:slug', 'WebhookReceiverController.receiver');
+Route.any('webhooks/:slug', 'WebhookReceiverController.receiver');

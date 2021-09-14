@@ -21,7 +21,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "test": "node ace test",
+    "setup": "node ace migration:run; node ace seed"
   },
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",

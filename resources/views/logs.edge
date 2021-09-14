@@ -63,6 +63,7 @@
       @if(!webhook)
         <th>Webhook ID</th>
       @endif
+      <th>Method</th>
       <th>Request Header</th>
       <th>Request Body</th>
       <th>Reply Code</th>
@@ -78,7 +79,8 @@
 
       @if(!webhook)
         <td>{{log.webhook_id}}</td>
-      @endif
+        @endif
+      <td>{{log.request_headers.ywr_requested_http_method}}</td>
 
       <td>
         <div class="popup">

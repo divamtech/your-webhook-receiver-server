@@ -30,6 +30,7 @@ class WebhookReceiverController {
 		headers.ywr_requested_webhook_slug = slug;
 		headers.ywr_requested_webhook_url = request.originalUrl();
 		headers.ywr_requested_http_method = request.method();
+		reply.method = headers.ywr_requested_http_method;
 
 		const data = {
 			webhook_id: webhookID,
