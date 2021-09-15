@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	/*
+  /*
   |--------------------------------------------------------------------------
   | Content Security Policy
   |--------------------------------------------------------------------------
@@ -10,8 +10,8 @@ module.exports = {
   | and load resources like scripts, styles and fonts. There are wide
   | variety of options to choose from.
   */
-	csp: {
-		/*
+  csp: {
+    /*
     |--------------------------------------------------------------------------
     | Directives
     |--------------------------------------------------------------------------
@@ -27,8 +27,8 @@ module.exports = {
     | }
     |
     */
-		directives: {},
-		/*
+    directives: {},
+    /*
     |--------------------------------------------------------------------------
     | Report only
     |--------------------------------------------------------------------------
@@ -37,8 +37,8 @@ module.exports = {
     | instead report them to a URL.
     |
     */
-		reportOnly: false,
-		/*
+    reportOnly: false,
+    /*
     |--------------------------------------------------------------------------
     | Set all headers
     |--------------------------------------------------------------------------
@@ -48,9 +48,9 @@ module.exports = {
     | headers, unless you want them to be set.
     |
     */
-		setAllHeaders: false,
+    setAllHeaders: false,
 
-		/*
+    /*
     |--------------------------------------------------------------------------
     | Disable on android
     |--------------------------------------------------------------------------
@@ -63,10 +63,10 @@ module.exports = {
     | if you want to know the behavior. https://github.com/helmetjs/helmet/pull/82
     |
     */
-		disableAndroid: true
-	},
+    disableAndroid: true,
+  },
 
-	/*
+  /*
   |--------------------------------------------------------------------------
   | X-XSS-Protection
   |--------------------------------------------------------------------------
@@ -77,12 +77,12 @@ module.exports = {
   | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
   |
   */
-	xss: {
-		enabled: true,
-		enableOnOldIE: false
-	},
+  xss: {
+    enabled: true,
+    enableOnOldIE: false,
+  },
 
-	/*
+  /*
   |--------------------------------------------------------------------------
   | Iframe Options
   |--------------------------------------------------------------------------
@@ -94,9 +94,9 @@ module.exports = {
   |
   | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   */
-	xframe: 'DENY',
+  xframe: 'DENY',
 
-	/*
+  /*
   |--------------------------------------------------------------------------
   | No Sniff
   |--------------------------------------------------------------------------
@@ -108,9 +108,9 @@ module.exports = {
   | Learn more at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
   |
   */
-	nosniff: true,
+  nosniff: true,
 
-	/*
+  /*
   |--------------------------------------------------------------------------
   | No Open
   |--------------------------------------------------------------------------
@@ -119,9 +119,9 @@ module.exports = {
   | a serious security risk. Below option will manage this for you.
   |
   */
-	noopen: true,
+  noopen: true,
 
-	/*
+  /*
   |--------------------------------------------------------------------------
   | CSRF Protection
   |--------------------------------------------------------------------------
@@ -130,15 +130,15 @@ module.exports = {
   | routes does have a valid token to execute an action.
   |
   */
-	csrf: {
-		enable: true,
-		methods: ['POST', 'PUT', 'DELETE'],
-		filterUris: [/^\/webhooks\//, /^\/api\/v1\//],
-		cookieOptions: {
-			httpOnly: false,
-			sameSite: true,
-			path: '/',
-			maxAge: 7200
-		}
-	}
+  csrf: {
+    enable: true,
+    methods: ['POST', 'PUT', 'DELETE'],
+    filterUris: [/^\/webhooks\//, /^\/api\/v1\//],
+    cookieOptions: {
+      httpOnly: false,
+      sameSite: true,
+      path: '/',
+      maxAge: 7200,
+    },
+  },
 };

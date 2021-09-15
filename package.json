@@ -22,7 +22,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node ace test",
-    "setup": "node ace migration:run; node ace seed"
+    "db:setup": "node ace db:drop; node ace db:create; node ace migration:run --force; node ace seed --force"
   },
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",

@@ -87,9 +87,23 @@
           </div>
         </div>
 
+        <div class="field">
+          <label class="label">Reply Body</label>
+            @if(flashMessage('notification_reply_body'))
+            <span style="color:red; font-size:12px;">{{ flashMessage('notification_reply_body') }}</span>
+            @endif
+          <div class="control">
+            <textarea id="reply_body" name="reply_body" rows="6" cols="75" style="padding: 2px">{{isUpdate ? webhook.reply_body : default_reply_body}}</textarea>
+            </select>
+          </div>
+        </div>
+
         <br/>
         <div class="control has-text-centered">
           <button type="submit" class="button is-primary is-uppercase">{{isUpdate ? 'Update' : 'Create'}}</button>
+          @if(isUpdate)
+          <a href="{{route('webhook.delete', {id : webhook.id })}}" class="button is-danger is-uppercase">Delete</a>
+          @endif
         </div>
       </form>
     </div>

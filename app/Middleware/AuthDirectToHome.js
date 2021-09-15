@@ -4,23 +4,23 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 class AuthDirectToHome {
-	/**
-	 * @param {object} ctx
-	 * @param {Request} ctx.request
-	 * @param {Function} next
-	 */
-	async handle({ response }, next) {
-		try {
-			await next();
-		} catch (err) {
-			try {
-				if (err.status == 401) {
-					return response.route('home');
-				}
-			} catch (e) {}
-			throw err;
-		}
-	}
+  /**
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Function} next
+   */
+  async handle({ response }, next) {
+    try {
+      await next();
+    } catch (err) {
+      try {
+        if (err.status == 401) {
+          return response.route('home');
+        }
+      } catch (e) {}
+      throw err;
+    }
+  }
 }
 
 module.exports = AuthDirectToHome;
