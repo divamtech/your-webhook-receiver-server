@@ -17,6 +17,19 @@
 |     Make sure to pass relative path from the project root.
 */
 
+//node version < 15
+if (!String.prototype.replaceAll) {
+  String.prototype.replaceAll = function (str, newStr) {
+    // If a regex pattern
+    if (Object.prototype.toString.call(str).toLowerCase() === '[object regexp]') {
+      return this.replace(str, newStr);
+    }
+
+    // If a string
+    return this.split(str).join(newStr);
+  };
+}
+
 const fs = require('fs');
 try {
   if (!fs.existsSync('.env') && fs.existsSync('.env.example')) {
