@@ -85,7 +85,7 @@
       <td>
         <div class="popup">
           <button onclick="togglePopup('reqHead{{log.id}}')">Show</button>
-          <span class="popuptext" id="reqHead{{log.id}}">
+          <span class="popuptext" id="reqHead{{log.id}}" style="width: 550px;">
             <button onclick="hidePopup('reqHead{{log.id}}')">X</button><br/>
             <pre>{{{toJSON(log.request_headers)}}}</pre>
           </span>
