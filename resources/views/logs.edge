@@ -2,6 +2,12 @@
 
 @section('content')
 
+<script>
+function parseDate(d, id) {
+ document.getElementById(id).innerHTML = new Date(d.split(' ').join('T')+'Z').toString()
+}
+</script>
+
   <div class="d-flex flex-row justify-content-between" style="padding: 10px 0;">
     
     @if(!!webhook.id)
@@ -79,8 +85,11 @@
 
       @if(!webhook)
         <td>{{log.webhook_id}}</td>
-        @endif
-      <td>{{log.request_headers.ywr_requested_http_method}}</td>
+      @endif
+      <td>
+        {{log.request_headers.ywr_requested_http_method}} 
+	{{{ log.request_body.method ? '<br/>[ReqMethod:'+log.request_body.method+']' : '' }}}
+      </td>
 
       <td>
         <div class="popup">
@@ -104,7 +113,9 @@
 
       <td>
        <img src="/tick_{{200 <= log.reply_code && log.reply_code < 300 ? 'yes' : 'no'}}.png" width="15" /> {{log.reply_code}} 
-      </td>
+       {{{ log.request_body.response_status_code ? '<br/>[RSC:'+log.request_body.response_status_code+']' : '' }}}
+       {{{ log.request_body.error_status_code ? '<br/>[ESC:'+log.request_body.error_status_code+']' : '' }}}
+     </td>
 
       <td>
         <div class="popup">
@@ -116,7 +127,7 @@
         </div>
       </td>
 
-      <td>{{log.updated_at}}</td>
+      <td onmouseover="parseDate('{{log.updated_at}}', 'date_{{log.id}}')" id="date_{{log.id}}">{{log.updated_at}}</td>
     </tr>
     @else
     <tr><td colspan="8" class="text-center"><strong>No record found</strong></td></tr>
