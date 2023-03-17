@@ -9,7 +9,7 @@ const FETCH_LIMIT = 30;
 
 class WebhookController {
   async index({ view }) {
-    const webhooks = await Webhook.all();
+    const webhooks = await Webhook.query().orderBy('name', 'asc').fetch();
     return view.render('home', { webhooks: webhooks.toJSON(), webhookHost });
   }
 
