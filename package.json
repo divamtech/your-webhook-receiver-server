@@ -33,6 +33,7 @@
     "@adonisjs/session": "^6.4.0",
     "@adonisjs/shield": "^7.1.1",
     "@adonisjs/view": "^6.2.0",
+    "bootstrap": "^5.3.2",
     "luxon": "^3.4.4",
     "mysql2": "^3.6.5",
     "proxy-addr": "^2.0.7",
