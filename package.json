@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ace serve --watch",
     "build": "node ace build --production",
-    "start": "node server.js",
+    "start": "node ace serve",
     "test": "node ace test",
     "ace": "node ace",
     "ace-h": "node ace -h",
