@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    @include('partials/head.edge')
+
+    @section('head')
+    @end
+  </head>
+
+  <body>
+    @include('partials/header.edge')
+
+    <div style="height: calc(99vh - 100px);">
+      @!section('content')
+    </div>
+
+    @include('partials/footer.edge')
+    @include('partials/model.edge')
+  </body>
+
+</html>
