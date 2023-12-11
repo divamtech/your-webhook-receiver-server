@@ -2,6 +2,7 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', 'AppController.index')
 Route.get('/landing', ({ view }) => view.render('landing'))
+Route.get('/user-profile', ({ view }) => view.render('userProfile'))
 Route.get('terms_and_conditions', 'AppController.termsAndConditions')
 Route.get('privacy_policy', 'AppController.privacyPolicy')
 
