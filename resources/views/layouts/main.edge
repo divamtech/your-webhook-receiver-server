@@ -8,12 +8,6 @@
     <title>goAvido</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
-
-    <style>
-      .tab-title{
-        border-bottom: none
-      }
-    </style>
   </head>
 
   <body>
@@ -27,24 +21,24 @@
         </a>
         <div class="justify-between items-stretch self-center flex gap-5 my-auto max-md:justify-center max-md:hidden">
           <div
-            class="items-stretch  flex aspect-[1.625] flex-col justify-center">
-            <div onclick="openTab('tabTitle1')" id="tabTitle1"
-              class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch aspect-[1.625] justify-center tab-Title">
+            class="items-stretch border-b-[color:var(--cyan-600,#0BAACA)] flex aspect-[1.625] flex-col justify-center border-b border-solid">
+            <div
+              class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch border-[color:var(--black-900,#121212)] aspect-[1.625] justify-center border-0 border-solid">
               <a href="/"
-                class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch  aspect-[1.625] justify-center "
+                class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch border-[color:var(--black-900,#121212)] aspect-[1.625] justify-center border-0 border-solid"
                 aria-label="Home">Home</a>
             </div>
           </div>
-          <div onclick="openTab('tabTitle2')" id="tabTitle2"
-            class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch tab-Title  aspect-[2.2916666666666665] justify-center">
+          <div
+            class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch border-[color:var(--black-900,#121212)] aspect-[2.2916666666666665] justify-center border-0 border-solid">
             <a href="/company-profile"
-              class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch  aspect-[2.2916666666666665] justify-center"
+              class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch border-[color:var(--black-900,#121212)] aspect-[2.2916666666666665] justify-center border-0 border-solid"
               aria-label="Network">Network</a>
           </div>
-          <div onclick="openTab('tabTitle3')" id="tabTitle3"
-            class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch tab-Title aspect-[1.7916666666666667] justify-center ">
+          <div
+            class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch border-[color:var(--black-900,#121212)] aspect-[1.7916666666666667] justify-center border-0 border-solid">
             <a href="/events"
-              class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch  aspect-[1.7916666666666667] justify-center"
+              class="text-neutral-900 text-sm font-medium leading-6 whitespace-nowrap items-stretch border-[color:var(--black-900,#121212)] aspect-[1.7916666666666667] justify-center border-0 border-solid"
               aria-label="Events">Events</a>
           </div>
         </div>
@@ -82,39 +76,6 @@
     </header>
 
     @!section('content')
-
-    <script>
-      // Function to open a specific tab
-      function openTab(tabId) {
-        // Hide all tab content
-        var tabContents = document.getElementsByClassName('tab-title');
-        for (var i = 0; i < tabContents.length; i++) {
-          tabContents[i].style.borderBottom = 'none';
-        }
-    
-        // Show the selected tab content
-        document.getElementById(tabId).style.borderBottom = '1px solid #0BAACA';
-    
-        // Save the selected tab to localStorage
-        localStorage.setItem('selectedTab', tabId);
-      }
-    
-      // Open the previously selected tab when the page loads
-      document.addEventListener("DOMContentLoaded", function() {
-        // Retrieve the previously selected tab from localStorage
-        var selectedTab = localStorage.getItem('selectedTab');
-    
-        // If a tab was previously selected, open it; otherwise, open Tab 1 by default
-        if (selectedTab) {
-          openTab(selectedTab);
-        } else {
-          openTab('tabTitle1');
-        }
-      });
-    </script>
-    
-    
-    
 
   </body>
 

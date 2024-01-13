@@ -1,25 +1,19 @@
 @layout('layouts/main')
 
 @section('content')
-
-<style>
-  input.border-0:focus {
-    border: none;
-    outline: none;
-}
-</style>
-
 <div class="Relative">
   <div class="bg-gray-50 max-md:mb-11 flex flex-col items-center pb-12">
 
     <div class="self-stretch flex w-full flex-col items-center pt-12 px-16 max-md:max-w-full max-md:px-5">
       <div
         class="shadow-lg bg-white z-[1] flex w-full max-w-[1106px] flex-col -mb-14 p-6 items-start max-md:max-w-full max-md:mb-2.5 max-md:px-5">
-        <div class="items-stretch flex gap-2 w-full">
+        <div class="items-stretch flex gap-2">
           <img loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/15a9ffd167d2a9266626112c0f7235092ab200349c90a5434bf0e7a693004660?apiKey=6fa48ab5feaf40cab29242d468480325&"
             class="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full" />
-          <input type="search" placeholder="Search Events here" class=" border-0 w-full text-zinc-500 text-sm font-medium leading-6 self-center grow whitespace-nowrap my-auto" />
+          <div class="text-zinc-500 text-sm font-medium leading-6 self-center grow whitespace-nowrap my-auto">
+            Search Events here
+          </div>
         </div>
         <div
           class="justify-center items-stretch self-stretch border-[color:var(--black-200,#EAEAEA)] flex flex-col mt-6 border-0 border-solid max-md:max-w-full">
@@ -27,34 +21,34 @@
         </div>
         <div
           class="justify-between items-start self-stretch flex w-full gap-5 mt-6 max-md:max-w-full max-md:flex-wrap ">
-          <button class="items-stretch flex gap-2 self-start">
+          <div class="items-stretch flex gap-2 self-start">
             <img loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/8548213868c76e521812d195440cb5bb38e17eaf97742905426c90688918f99a?apiKey=6fa48ab5feaf40cab29242d468480325&"
               class="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full" />
             <div class="text-zinc-600 text-sm font-medium leading-6 self-center grow whitespace-nowrap my-auto">
               New Delhi
             </div>
-          </button>
-          <button class="items-stretch flex gap-2 self-start">
+          </div>
+          <div class="items-stretch flex gap-2 self-start">
             <img loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/b2cb6b45f2201b767be8b129bd1e83199f026dc5c3308bd8df855cf9ca717e7f?apiKey=6fa48ab5feaf40cab29242d468480325&"
               class="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full" />
             <div class="text-zinc-600 text-sm font-medium leading-6 self-center grow whitespace-nowrap my-auto">
               Event Type
             </div>
-          </button>
-          <button class="items-stretch flex gap-2 self-start">
+          </div>
+          <div class="items-stretch flex gap-2 self-start">
             <img loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/276786202f03c0a69e7d864e82c5f1c04eb434ce5052a760bd8329ad96bd3fbe?apiKey=6fa48ab5feaf40cab29242d468480325&"
               class="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full" />
             <div class="text-zinc-600 text-sm font-medium leading-6 self-center grow whitespace-nowrap my-auto">
               Date
             </div>
-          </button>
-          <button
+          </div>
+          <div
             class="text-white text-center text-sm font-medium leading-6 whitespace-nowrap justify-center items-stretch rounded bg-cyan-500 px-2.5 py-1">
             Find Events
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -276,7 +270,7 @@
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/31fbbf8acfa20a4864ec706a5af387313a0121bbe378147de46911068d0df467?apiKey=6fa48ab5feaf40cab29242d468480325&"
                           class="aspect-[4.52] object-contain object-center w-[122px] items-start overflow-hidden self-stretch shrink-0 max-w-full" />
                       </div>
-                      <button
+                      <div
                         class="justify-between items-center bg-teal-700 flex gap-1 mt-4 px-20 py-2.5 rounded-md max-md:px-5">
                         <img loading="lazy"
                           src="https://cdn.builder.io/api/v1/image/assets/TEMP/ac15ab88d06d35185e7869f616d0fefddb2bfc6936ae41386d514bd6678af313?apiKey=6fa48ab5feaf40cab29242d468480325&"
@@ -285,7 +279,7 @@
                           class="text-white text-center text-lg font-medium leading-8 tracking-tight self-stretch grow whitespace-nowrap">
                           Interested
                         </div>
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>

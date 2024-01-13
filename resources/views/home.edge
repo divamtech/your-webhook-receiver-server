@@ -6,13 +6,6 @@ textarea.border-0:focus {
     border: none;
     outline: none;
   }
-
-  #noLike {
-    display: none
-  }
-  #noBookmark {
-    display: none
-  }
 </style>
 
 <div class="Relative">
@@ -356,13 +349,9 @@ textarea.border-0:focus {
             <div class="justify-between items-stretch flex w-full gap-5 mt-6 pr-1.5 max-md:max-w-full max-md:flex-wrap">
               <div class="items-stretch flex justify-between gap-5 pr-20 max-md:max-w-full max-md:flex-wrap max:pr-5">
                 <div class="justify-between items-stretch flex gap-1">
-                  <svg id="like" onclick="setLike()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <path d="M8.16661 12.8334V22.1667C8.16661 22.4761 8.04369 22.7729 7.8249 22.9916C7.6061 23.2104 7.30936 23.3334 6.99994 23.3334H4.66661C4.35719 23.3334 4.06044 23.2104 3.84165 22.9916C3.62286 22.7729 3.49994 22.4761 3.49994 22.1667V14C3.49994 13.6906 3.62286 13.3939 3.84165 13.1751C4.06044 12.9563 4.35719 12.8334 4.66661 12.8334H8.16661C9.40428 12.8334 10.5913 12.3417 11.4664 11.4665C12.3416 10.5914 12.8333 9.40436 12.8333 8.16669V7.00002C12.8333 6.38118 13.0791 5.78769 13.5167 5.3501C13.9543 4.91252 14.5478 4.66669 15.1666 4.66669C15.7854 4.66669 16.3789 4.91252 16.8165 5.3501C17.2541 5.78769 17.4999 6.38118 17.4999 7.00002V12.8334H20.9999C21.6188 12.8334 22.2123 13.0792 22.6499 13.5168C23.0874 13.9544 23.3333 14.5479 23.3333 15.1667L22.1666 21C21.9988 21.7157 21.6805 22.3303 21.2597 22.7512C20.8389 23.172 20.3383 23.3763 19.8333 23.3334H11.6666C10.7383 23.3334 9.84811 22.9646 9.19173 22.3082C8.53536 21.6519 8.16661 20.7616 8.16661 19.8334" fill="#20C997"/>
-                    <path d="M8.16661 12.8334V22.1667C8.16661 22.4761 8.04369 22.7729 7.8249 22.9916C7.6061 23.2104 7.30936 23.3334 6.99994 23.3334H4.66661C4.35719 23.3334 4.06044 23.2104 3.84165 22.9916C3.62286 22.7729 3.49994 22.4761 3.49994 22.1667V14C3.49994 13.6906 3.62286 13.3939 3.84165 13.1751C4.06044 12.9563 4.35719 12.8334 4.66661 12.8334H8.16661ZM8.16661 12.8334C9.40428 12.8334 10.5913 12.3417 11.4664 11.4665C12.3416 10.5914 12.8333 9.40436 12.8333 8.16669V7.00002C12.8333 6.38118 13.0791 5.78769 13.5167 5.3501C13.9543 4.91252 14.5478 4.66669 15.1666 4.66669C15.7854 4.66669 16.3789 4.91252 16.8165 5.3501C17.2541 5.78769 17.4999 6.38118 17.4999 7.00002V12.8334H20.9999C21.6188 12.8334 22.2123 13.0792 22.6499 13.5168C23.0874 13.9544 23.3333 14.5479 23.3333 15.1667L22.1666 21C21.9988 21.7157 21.6805 22.3303 21.2597 22.7511C20.8389 23.172 20.3383 23.3763 19.8333 23.3334H11.6666C10.7383 23.3334 9.84811 22.9646 9.19173 22.3082C8.53536 21.6519 8.16661 20.7616 8.16661 19.8334" stroke="#1C836D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                  <svg id="noLike" onclick="setLike()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                    <path d="M8.16661 12.8333V22.1667C8.16661 22.4761 8.04369 22.7728 7.8249 22.9916C7.6061 23.2104 7.30936 23.3333 6.99994 23.3333H4.66661C4.35719 23.3333 4.06044 23.2104 3.84165 22.9916C3.62286 22.7728 3.49994 22.4761 3.49994 22.1667V14C3.49994 13.6906 3.62286 13.3938 3.84165 13.1751C4.06044 12.9563 4.35719 12.8333 4.66661 12.8333H8.16661ZM8.16661 12.8333C9.40428 12.8333 10.5913 12.3417 11.4664 11.4665C12.3416 10.5913 12.8333 9.40436 12.8333 8.16668V7.00001C12.8333 6.38117 13.0791 5.78768 13.5167 5.3501C13.9543 4.91251 14.5478 4.66668 15.1666 4.66668C15.7854 4.66668 16.3789 4.91251 16.8165 5.3501C17.2541 5.78768 17.4999 6.38117 17.4999 7.00001V12.8333H20.9999C21.6188 12.8333 22.2123 13.0792 22.6499 13.5168C23.0874 13.9544 23.3333 14.5478 23.3333 15.1667L22.1666 21C21.9988 21.7157 21.6805 22.3303 21.2597 22.7511C20.8389 23.172 20.3383 23.3763 19.8333 23.3333H11.6666C10.7383 23.3333 9.84811 22.9646 9.19173 22.3082C8.53536 21.6518 8.16661 20.7616 8.16661 19.8333" stroke="#1C836D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <img loading="lazy" href="javascript:void(0);"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/dc105e7a8cc7b78f09e38cca9fa7b74ec7c3628a1a184ccf52a7a0d82f05ec74?apiKey=6fa48ab5feaf40cab29242d468480325&"
+                    class="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full" />
                   <div class="text-zinc-600 text-xs leading-5 self-center grow whitespace-nowrap my-auto">14</div>
                 </div>
                 <div class="justify-between items-stretch flex gap-1">
@@ -379,12 +368,9 @@ textarea.border-0:focus {
                     52</div>
                 </div>
               </div>
-              <svg id="bookmark" onclick="setBookmark()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M10.5001 4.66666H17.5001C18.1189 4.66666 18.7124 4.91249 19.15 5.35007C19.5876 5.78766 19.8334 6.38115 19.8334 6.99999V23.3333L14.0001 19.8333L8.16672 23.3333V6.99999C8.16672 6.38115 8.41255 5.78766 8.85013 5.35007C9.28772 4.91249 9.88121 4.66666 10.5001 4.66666Z" fill="#D56A11" stroke="#D56A11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <svg id="noBookmark" onclick="setBookmark()" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M10.5001 4.66666H17.5001C18.1189 4.66666 18.7124 4.91249 19.15 5.35007C19.5876 5.78766 19.8334 6.38115 19.8334 6.99999V23.3333L14.0001 19.8333L8.16672 23.3333V6.99999C8.16672 6.38115 8.41255 5.78766 8.85013 5.35007C9.28772 4.91249 9.88121 4.66666 10.5001 4.66666Z" stroke="#D56A11" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <img loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/8a6390fa5f1fb46938b01cc16c8ebc13c11eebaf32631e2a2a37563807d8e4a0?apiKey=6fa48ab5feaf40cab29242d468480325&"
+                class="aspect-square object-contain object-center w-7 overflow-hidden shrink-0 max-w-full" />
             </div>
           </div>
           <!-- /photo post -->
@@ -704,47 +690,5 @@ textarea.border-0:focus {
     </a>
   </div>
 </div>
-
-
-<script>
-    var islike = true;
-
-    function setLike() {
-        var like = document.getElementById("like");
-        var noLike = document.getElementById("noLike");
-
-        // Toggle the visibility of the SVGs
-        if (islike) {
-            like.style.display = 'none';
-            noLike.style.display = 'inline';
-        } else {
-            like.style.display = 'inline';
-            noLike.style.display = 'none';
-        }
-
-        // Toggle the state
-        islike = !islike;
-    }
-  var isBookMark = true;
-
-  function setBookmark() {
-      var bookmark = document.getElementById("bookmark");
-      var noBookmark = document.getElementById("noBookmark");
-
-      // Toggle the visibility of the SVGs
-      if (isBookMark) {
-        bookmark.style.display = 'none';
-        noBookmark.style.display = 'inline';
-      } else {
-        bookmark.style.display = 'inline';
-        noBookmark.style.display = 'none';
-      }
-
-      // Toggle the state
-      isBookMark = !isBookMark;
-  }
-</script>
-
-
 
 @end
