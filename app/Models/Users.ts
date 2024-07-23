@@ -2,7 +2,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
 import Base from 'App/Models/Base'
 
-export default class User extends Base {
+export default class Users extends Base {
   @column()
   public name: string
 
@@ -12,23 +12,8 @@ export default class User extends Base {
   @column({ serializeAs: null })
   public password: string
 
-  @column()
-  public rememberMeToken?: string | null
-
-  @column()
-  public countryCode: string
-
-  @column()
-  public mobileNumber: string
-
-  @column()
-  public imageUrl?: string
-
-  @column()
-  public isEmailVerify: boolean
-
   @beforeSave()
-  public static async hashPassword(user: User) {
+  public static async hashPassword(user: Users) {
     if (user.$dirty.password) {
       user.password = await Hash.make(user.password)
     }

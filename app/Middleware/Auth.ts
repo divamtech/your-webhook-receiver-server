@@ -71,6 +71,12 @@ export default class AuthMiddleware {
      */
     const guards = customGuards.length ? customGuards : [auth.name]
     await this.authenticate(auth, guards)
+    /**
+     * Authenticate subsequent requests
+     */
+
+    // FIXME: Need to chcek this why this line is req . 
+    await auth.use('web').authenticate();
     await next()
   }
 }

@@ -13,7 +13,7 @@ export default class DbCreate extends BaseCommand {
   public async run(): Promise<void> {
     const { default: env } = await import('@ioc:Adonis/Core/Env')
     const { default: config } = await import('@ioc:Adonis/Core/Config')
-    const connName = env.get('DB_CONNECTION')
+    const connName = env.get('MYSQL_CONNECTION')
     const conn = config.get('database.connections')[connName]
     const envDBName = env.get(`${connName.toUpperCase()}_DB_NAME`)
 

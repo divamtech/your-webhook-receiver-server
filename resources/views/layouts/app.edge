@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Your Webhook Receiver</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css" />
+  <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <style>
+    table th {
+      color: white !important;
+      background-color: black;
+      padding: 0 10px;
+      font-size: 14px;
+    }
+    table tr:nth-child(even) {
+      background-color: #eee;
+      padding: 10px 0;
+    }
+    table tr:nth-child(odd) {
+      background-color: #fff;
+      padding: 0 10px;
+    }
+    table td {
+      padding: 10px;
+      font-size: 12px;
+    }
+    .link-font {
+      font-size: 12px;
+    }
+  </style>
+
+  <script>
+    function tapToCopy(text) {
+      var input = document.createElement('input');
+      input.setAttribute('value', text);
+      document.body.appendChild(input);
+      input.select();
+      var result = document.execCommand('copy');
+      document.body.removeChild(input);
+      alert("Copied the text: " + input.value);
+      return result;
+    }
+    function showPopup(id) {
+      $('#'+id).addClass('show');
+    }
+    function hidePopup(id) {
+      $('#'+id).removeClass('show');
+    }
+    function togglePopup(id) {
+      $('#'+id).toggleClass('show');
+    }
+    $('button').click(function(event) {
+      event.stopPropagation();
+    });
+  </script>
+
+  <style type="text/css">
+      .popup {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      }
+
+      /* The actual popup (appears on top) */
+      .popup .popuptext {
+      visibility: hidden;
+      display: none;
+      width: auto;
+      background-color: #555;
+      color: #fff;
+      border-radius: 6px;
+      padding: 8px;
+      position: absolute;
+      z-index: 1;
+      top: 125%;
+      left: 0%;
+      max-width: 550px;
+      }
+
+      /* Popup arrow */
+      .popup .popuptext::after {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 20px;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent  #555 transparent;
+      }
+
+      /* Toggle this class when clicking on the popup container (hide and show the popup) */
+      .popup .show {
+      visibility: visible;
+      display: block;
+      -webkit-animation: fadeIn 1s;
+      animation: fadeIn 1s
+      }
+
+      /* Add animation (fade in the popup) */
+      @-webkit-keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+      }
+
+      @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity:1 ;}
+      }
+  </style>
+
+</head>
+
+<body>
+
+  <nav class="navbar is-dark">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">Your Webhook Receiver</a>
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          @loggedIn
+          <a class="navbar-item" href="{{route('webhooks')}}">Webhooks</a>
+          <a class="navbar-item" href="{{route('webhooks.logs')}}">Logs</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a class="navbar-link">
+                {{ auth.user.name }}
+              </a>
+              <div class="navbar-dropdown">
+                <a class="navbar-item" href="/logout">Logout</a>
+              </div>
+            </div>
+          @else
+            <a class="navbar-item" href="/login">Login</a>
+          @endloggedIn
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="section">
+    <div class="container">
+      @!section('content')
+    </div>
+  </div>
+
+  <script>
+     $('button').click(function(event) {
+    event.stopPropagation();
+    });
+     $('.popuptext').click(function(event) {
+    event.stopPropagation();
+    });
+  </script>
+
+  <!-- Footer -->
+  <footer class="page-footer font-small blue pt-4">
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">
+      Crafted with ❤️ by <a href="https://github.com/dayitv89" target="_new">Gaurav D. Sharma</a>. 
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+
+</body>
+</html>
