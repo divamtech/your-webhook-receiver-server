@@ -43,13 +43,17 @@
       
       <td>
         <div class="popup">
-          <button onclick="togglePopup('authKeyID{{webhook.id}}')" >{{webhook.auth}}</button>
+          <button onclick="togglePopup('authKeyID{{webhook.id}}')">{{webhook.auth}}</button>
           <span class="popuptext" id="authKeyID{{webhook.id}}">
-            <button onclick="hidePopup('authKeyID{{webhook.id}}')">
-              X</button>&nbsp;&nbsp;
-            Auth:&nbsp;{{webhook.auth}}<br/>
-            Key1:&nbsp{{webhook.auth_key1}}<br/>
-            Key2:&nbsp{{webhook.auth_key2}}
+              <div class="btn-container">
+                  <button onclick="hidePopup('authKeyID{{webhook.id}}')">X</button>
+                  <button onclick="copyToClipboard('authDetails{{webhook.id}}')">Copy</button>
+              </div>&nbsp;&nbsp;
+              <div id="authDetails{{webhook.id}}">
+                  Auth:&nbsp;{{webhook.auth}}<br/>
+                  Key1:&nbsp;{{webhook.auth_key1}}<br/>
+                  Key2:&nbsp;{{webhook.auth_key2}}
+              </div>
           </span>
         </div>
       </td>

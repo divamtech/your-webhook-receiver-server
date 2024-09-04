@@ -95,8 +95,11 @@ function parseDate(d, id) {
         <div class="popup">
           <button onclick="togglePopup('reqHead{{log.id}}')">Show</button>
           <span class="popuptext" id="reqHead{{log.id}}">
-            <button onclick="hidePopup('reqHead{{log.id}}')">X</button><br/>
-            <pre>{{{toJSON(log.request_headers)}}}</pre>
+            <div class="btn-container">
+              <button onclick="hidePopup('reqHead{{log.id}}')">X</button>
+              <button onclick="copyToClipboard('reqHeaders{{log.id}}')">Copy</button>
+            </div>
+            <pre id="reqHeaders{{log.id}}">{{{toJSON(log.request_headers)}}}</pre>
           </span>
         </div>
       </td>
@@ -105,8 +108,11 @@ function parseDate(d, id) {
         <div class="popup">
           <button onclick="togglePopup('reqBody{{log.id}}')">Show</button>
           <span class="popuptext" id="reqBody{{log.id}}">
-            <button onclick="hidePopup('reqBody{{log.id}}')">X</button><br/>
-            <pre>{{{toJSON(log.request_body)}}}</pre>
+            <div class="btn-container">
+              <button onclick="hidePopup('reqBody{{log.id}}')">X</button>
+              <button onclick="copyToClipboard('reqBodyContent{{log.id}}')">Copy</button>
+            </div>
+            <pre id="reqBodyContent{{log.id}}">{{{toJSON(log.request_body)}}}</pre>
           </span>
         </div>
       </td>
@@ -116,16 +122,18 @@ function parseDate(d, id) {
        {{{ log.request_body.response_status_code ? '<br/>[RSC:'+log.request_body.response_status_code+']' : '' }}}
        {{{ log.request_body.error_status_code ? '<br/>[ESC:'+log.request_body.error_status_code+']' : '' }}}
      </td>
-
-      <td>
-        <div class="popup">
-          <button onclick="togglePopup('replyBody{{log.id}}')">Show</button>
-          <span class="popuptext" id="replyBody{{log.id}}">
-            <button onclick="hidePopup('replyBody{{log.id}}')">X</button><br/>
-            <pre>{{{toJSON(log.reply_body)}}}</pre>
-          </span>
-        </div>
-      </td>
+     <td>
+      <div class="popup">
+        <button onclick="togglePopup('replyBody{{log.id}}')">Show</button>
+        <span class="popuptext" id="replyBody{{log.id}}">
+          <div class="btn-container">
+            <button onclick="hidePopup('replyBody{{log.id}}')">X</button>
+            <button onclick="copyToClipboard('replyBodyContent{{log.id}}')">Copy</button>
+          </div>
+          <pre id="replyBodyContent{{log.id}}">{{{toJSON(log.reply_body)}}}</pre>
+        </span>
+      </div>
+    </td>
 
       <td onmouseover="parseDate('{{log.updated_at}}', 'date_{{log.id}}')" id="date_{{log.id}}">{{log.updated_at}}</td>
     </tr>
