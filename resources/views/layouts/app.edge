@@ -129,7 +129,7 @@
 
       <div class="navbar-menu">
         <div class="navbar-end">
-          @loggedIn
+          @if(user)
           <a class="navbar-item" href="{{route('webhooks')}}">Webhooks</a>
           <a class="navbar-item" href="{{route('webhooks.logs')}}">Logs</a>
             <div class="navbar-item has-dropdown is-hoverable">
@@ -142,7 +142,7 @@
             </div>
           @else
             <a class="navbar-item" href="/login">Login</a>
-          @endloggedIn
+          @end
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@
   <footer class="page-footer font-small blue pt-4">
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3">
-      Crafted with ❤️ by <a href="https://github.com/dayitv89" target="_new">Gaurav D. Sharma</a>. 
+      Crafted with ❤️ by <a href="https://github.com/gauravds" target="_new">Gaurav D. Sharma</a>. 
     </div>
     <!-- Copyright -->
   </footer>

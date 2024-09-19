@@ -3,17 +3,15 @@ import Hash from '@ioc:Adonis/Core/Hash';
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 export default class UsersController {
-
-  async showLoginForm(ctx: HttpContextContract) {
-    try {
-      return ctx.view.render('login');
-    } catch (error) {
-      console.log("Error while login edge" , error)
+  async index(ctx: HttpContextContract) {
+    if (await ctx.auth.use('web').authenticate()) {
+      return ctx.response.redirect('/admin/webhooks');
     }
+    return ctx.response.redirect('/login')
   }
 
-  async test(ctx: HttpContextContract){
-    return ctx.view.render('test');
+  public showLoginForm(ctx: HttpContextContract) {
+    return ctx.view.render('login')
   }
 
   async login({ request, auth, session, response }: HttpContextContract) {
@@ -31,14 +29,14 @@ export default class UsersController {
         if (passwordVerified) {
           // login user
           await auth.attempt(email, password, remember);
-        }else{
-            // display error message
-            session.flash({
-                notification: {
-                    type: 'danger',
-                    message: `We couldn't verify your credentials. Make sure you've confirmed your email address.`,
-                },
-            });
+        } else {
+          // display error message
+          session.flash({
+            notification: {
+              type: 'danger',
+              message: `We couldn't verify your credentials. Make sure you've confirmed your email address.`,
+            },
+          });
         }
         return response.redirect('/');
       }
@@ -51,13 +49,13 @@ export default class UsersController {
         },
       });
     }
-    return response.redirect('/login');
+    return response.redirect('/');
   }
 
   async logout(ctx: HttpContextContract) {
     try {
       await ctx.auth.logout();
-      return ctx.response.redirect('/login');
+      return ctx.response.redirect('/');
     } catch (error) {
       console.error('Logout error:', error);
       ctx.session.flash({
@@ -70,15 +68,7 @@ export default class UsersController {
     }
   }
 
-  async home(ctx: HttpContextContract) {
-    try {
-      await ctx.auth.use('web').authenticate();
-      return ctx.response.redirect('/admin/webhooks');
-    } catch (error) {
-      console.error('Home error:', error);
-      return ctx.view.render('login');
-    }
-  }
+
 
 }
 

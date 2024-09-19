@@ -1,11 +1,9 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'UsersController.home').as('home');
+Route.get('/', 'UsersController.index').as('home');
 Route.get('/login', 'UsersController.showLoginForm');
 Route.post('login', 'UsersController.login').as('login');
 Route.get('/logout', 'UsersController.logout');
-
-Route.get('/test', 'UsersController.test');
 
 Route.group(() => {
   Route.get('/', 'WebhookController.index').as('webhooks');

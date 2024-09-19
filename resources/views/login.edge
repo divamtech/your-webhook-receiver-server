@@ -1,11 +1,11 @@
-@layout('layouts.app')
+@layout('layouts/app')
 
 @section('content')
   <div class="columns">
     <div class="column is-4 is-offset-4">
       <h2 class="title has-text-centered">Login</h2>
 
-      @include('includes.notification')
+      @include('includes/notification')
 
       <form action="{{ route('login') }}" method="post">
         {{ csrfField() }}
