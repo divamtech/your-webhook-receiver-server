@@ -14,7 +14,7 @@
     "db:setup:win": "node ace db:drop && node ace db:create && node ace migration:run && node ace db:seed"
   },
   "devDependencies": {
-    "@adonisjs/assembler": "^5.9.6",
+    "@adonisjs/assembler": "^7.8.2",
     "@japa/preset-adonis": "^1.2.0",
     "@japa/runner": "^2.5.1",
     "@types/proxy-addr": "^2.0.3",
