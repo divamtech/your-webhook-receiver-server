@@ -1,10 +1,12 @@
-# goAvido
+# your-webhook-receiver-server 
+
+AdonisJS v5
 
 ## Setup
 
 ### Prerequisite
 
-- nodejs 16+
+- nodejs 18+
 - MySQL 8
 
 ```sh
