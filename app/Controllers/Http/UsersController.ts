@@ -24,32 +24,42 @@ export default class UsersController {
 
       if (user) {
         // verify password
-        const passwordVerified = await Hash.verify(password, user.password);
+        const passwordVerified = await Hash.verify(user.password, password);
 
         if (passwordVerified) {
           // login user
           await auth.attempt(email, password, remember);
+          return response.redirect('/'); // redirect to a success page
         } else {
           // display error message
-          session.flash({
+          await session.flash({
             notification: {
               type: 'danger',
               message: `We couldn't verify your credentials. Make sure you've confirmed your email address.`,
             },
           });
+          return response.redirect('/login');
         }
-        return response.redirect('/');
+      } else {
+        // display error message
+        await session.flash({
+          notification: {
+            type: 'danger',
+            message: 'Invalid email or password.',
+          },
+        });
+        return response.redirect('/login');
       }
     } catch (error) {
       console.error('Login error:', error);
-      session.flash({
+      await session.flash({
         notification: {
           type: 'danger',
           message: 'An unexpected error occurred. Please try again.',
         },
       });
+      return response.redirect('/login');
     }
-    return response.redirect('/');
   }
 
   async logout(ctx: HttpContextContract) {

@@ -1,5 +1,5 @@
 @if(flashMessages.get('notification'))
-  <div class="notification is-{{ flashMessage('notification.type') }}">
-    {{ flashMessages.get('notification.message') }}
-  </div>
+<div class="notification is-{{ flashMessages.get('notification').type }}">
+  {{ flashMessages.get('notification').message }}
+</div>
 @endif

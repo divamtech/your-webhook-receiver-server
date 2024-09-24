@@ -1,112 +1,97 @@
 @layout('layouts.app')
 
 @section('content')
-  <div class="columns">
-    <div class="column is-8 is-offset-2">
-      <h2 class="title has-text-centered">{{webhook.name || 'Create New'}}</h2>
+<div class="columns">
+  <div class="column is-8 is-offset-2">
+    <h2 class="title has-text-centered">{{ webhook?.name ?? 'Create New' }}</h2>
+    @include('includes.notification')
+    <form class="form" action="{{ route('webhook.createUpdate', { id: isUpdate ? webhook.id : 'new' }) }}"
+      method="post">
+      {{ csrfField() }}
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="is-fullwidth" type="text" name="name" value="{{ webhook?.name || '' }}">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Slug</label>
+        <div class="control">
+          <input size="75" type="text" name="slug" value="{{ webhook?.slug || '' }}">
+        </div>
+      </div>
 
-      @include('includes.notification')
+      <div class="field">
+        <label class="label">Auth</label>
+        <div class="control">
+          <select name="auth">
+            <option {{ webhook?.auth==='none' ? 'selected' : '' }} value="none">None</option>
+            <option {{ webhook?.auth==='basic' ? 'selected' : '' }} value="basic">Basic</option>
+            <option {{ webhook?.auth==='bearer' ? 'selected' : '' }} value="bearer">Bearer</option>
+            <option {{ webhook?.auth==='HMAC-SHA1' ? 'selected' : '' }} value="HMAC-SHA1">HMAC-SHA1</option>
+            <option {{ webhook?.auth==='HMAC-SHA256' ? 'selected' : '' }} value="HMAC-SHA256">HMAC-SHA256</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Key 1 <span class="small">(basic: username | bearer: token | HMAC-SHA1/256:
+            client)</span></label>
+        <div class="control">
+          <input size="75" type="text" name="auth_key1" value="{{ webhook?.auth_key1 || '' }}">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Key 2 <span class="small">(basic: password | bearer: empty | HMAC-SHA1/256:
+            secret)</span></label>
+        <div class="control">
+          <input size="75" type="text" name="auth_key2" value="{{ webhook?.auth_key2 || '' }}">
+        </div>
+      </div>
+      <div class="field d-flex flex-row align-items-baseline">
+        <input type="checkbox" name="is_active" value="1" {{ webhook?.is_active || !isUpdate ? 'checked' : ''
+          }}>&nbsp;<label class="label">Is Active</label>
+      </div>
 
-      <form class="form" action="{{ route('webhook.createUpdate', {id : isUpdate ? webhook.id : 'new' }) }}" method="post">
-        {{ csrfField() }}
-
-        <div class="field">
-          <label class="label">Name</label>
-          <div class="control">
-            <input
-              class="is-fullwidth"
-              type="text"
-              name="name"
-              value="{{webhook.name}}"
-              >
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Slug</label>
-          <div class="control">
-            <input
-              size="75"
-              type="text"
-              name="slug"
-              value="{{webhook.slug}}"
-              >
-          </div>
-		</div>
-		
-        <div class="field">
-          <label class="label">Auth</label>
-          <div class="control">
-            <select name="auth">
-              <option {{{ webhook.auth == 'none' ? 'value="none" selected' : 'value="none"' }}}>None</option>
-              <option {{{ webhook.auth == 'basic' ? 'value="basic" selected' : 'value="basic"' }}}>Basic</option>
-              <option {{{ webhook.auth == 'bearer' ? 'value="bearer" selected': 'value="bearer"' }}}>Bearer</option>
-              <option {{{ webhook.auth == 'HMAC-SHA1' ? 'value="HMAC-SHA1" selected' : 'value="HMAC-SHA1"' }}}>HMAC-SHA1</option>
-              <option {{{ webhook.auth == 'HMAC-SHA256' ? 'value="HMAC-SHA256"  selected' : 'value="HMAC-SHA256"' }}}>HMAC-SHA256</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Key 1 <span class="small">(basic: username | bearer: token | HMAC-SHA1/256: client)</span></label>
-          <div class="control">
-            <input
-              size="75"
-              type="text"
-              name="auth_key1"
-              value="{{webhook.auth_key1 || ''}}"
-              >
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Key 2 <span class="small">(basic: password | bearer: empty | HMAC-SHA1/256: secret)</span></label>
-          <div class="control">
-            <input
-              size="75"
-              type="text"
-              name="auth_key2"
-              value="{{webhook.auth_key2|| ''}}"
-              >
-          </div>
-        </div>
-        <div class="field d-flex flex-row align-items-baseline">
-          <input type="checkbox" name="is_active" value="1" {{webhook.is_active || !isUpdate ? "checked" : ""}}>&nbsp;<label class="label">Is Active</label>
-        </div>
-
-        <div class="field">
-          <label class="label">Default Reply Code</label>
-          <div class="control">
-            <select name="default_reply_code">
-              @each(httpCode in httpCodes)
-                @if(isUpdate)
-                  <option {{{ webhook.default_reply_code == httpCode.code ? 'value="'+httpCode.code+'" selected' : 'value="'+httpCode.code+'"' }}}>
-                @else
-                  <option {{{ 200 == httpCode.code ? 'value="'+httpCode.code+'" selected' : 'value="'+httpCode.code+'"' }}}>
-                @endif
-                    {{httpCode.code}} - {{ httpCode.message }}</option>
-              @endeach
-            </select>
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="label">Reply Body</label>
-            @if(flashMessage('notification_reply_body'))
-            <span style="color:red; font-size:12px;">{{ flashMessage('notification_reply_body') }}</span>
+      <div class="field">
+        <label class="label">Default Reply Code</label>
+        <div class="control">
+          <select name="default_reply_code">
+            @each(httpCode in https_codes)
+            @if(isUpdate)
+            <option {{ webhook.default_reply_code===httpCode.code ? 'selected' : '' }} value="{{ httpCode.code }}">
+              {{ httpCode.code }} - {{ httpCode.message }}
+            </option>
+            @else
+            <option {{ 200===httpCode.code ? 'selected' : '' }} value="{{ httpCode.code }}">{{ httpCode.code }} -
+              {{ httpCode.message }}
+            </option>
             @endif
-          <div class="control">
-            <textarea id="reply_body" name="reply_body" rows="6" cols="75" style="padding: 2px">{{isUpdate ? webhook.reply_body : default_reply_body}}</textarea>
-            </select>
-          </div>
+            @endeach
+          </select>
         </div>
+      </div>
 
-        <br/>
-        <div class="control has-text-centered">
-          <button type="submit" class="button is-primary is-uppercase">{{isUpdate ? 'Update' : 'Create'}}</button>
-          @if(isUpdate)
-          <a href="{{route('webhook.delete', {id : webhook.id })}}" class="button is-danger is-uppercase">Delete</a>
-          @endif
+      <div class="field">
+        <label class="label">Reply Body</label>
+        @if(flashMessage)
+        <span style="color:red; font-size:12px;">{{ flashMessage }}</span>
+        @endif
+        <div class="control">
+          <textarea id="reply_body" name="reply_body" rows="6" cols="75" style="padding: 2px;">
+          {{ isUpdate ? webhook.reply_body : default_reply_body }}
+          </textarea>
         </div>
-      </form>
-    </div>
-    <br/>
+      </div>
+
+      <br />
+      <div class="control has-text-centered">
+        <button type="submit" class="button is-primary is-uppercase">{{isUpdate ? 'Update' : 'Create'}}</button>
+        @if(isUpdate)
+        <a href="{{route('webhook.delete', {id : webhook.id })}}" class="button is-danger is-uppercase">Delete</a>
+        @endif
+      </div>
+    </form>
   </div>
+  <br />
+</div>
 @endsection
