@@ -23,8 +23,6 @@ export default Env.rules({
   CACHE_VIEWS: Env.schema.boolean(),
   SESSION_DRIVER: Env.schema.string(),
 
-  DRIVE_DISK: Env.schema.enum(['local'] as const),
-
   MYSQL_HOST: Env.schema.string({ format: 'host' }),
   MYSQL_PORT: Env.schema.number(),
   MYSQL_USER: Env.schema.string(),
