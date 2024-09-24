@@ -38,7 +38,7 @@
 
     <input type="hidden" id="current_reply_code" name="current_reply_code" value="{{ webhook.default_reply_code }}" />
     <select id="default_reply_code" name="default_reply_code">
-      @each(httpCode in httpCodes)
+      @each(httpCode in https_codes)
       <option {{{ webhook.default_reply_code==httpCode.code ? 'value="' +httpCode.code+'" selected' : 'value="'
         +httpCode.code+'"' }}}>
         {{httpCode.code}} - {{ httpCode.message }}
