@@ -3,136 +3,142 @@
 @section('content')
 
 <script>
-function parseDate(d, id) {
- document.getElementById(id).innerHTML = new Date(d.split(' ').join('T')+'Z').toString()
-}
+  function parseDate(d, id) {
+    document.getElementById(id).innerHTML = new Date(d.split(' ').join('T') + 'Z').toString()
+  }
 </script>
 
-  <div class="d-flex flex-row justify-content-between" style="padding: 10px 0;">
-    
-    @if(!!webhook.id)
-      <p><strong>{{ webhook.name }}</strong></p>
-      <div class="control">
-        <script>
-          function changeStatusCode(text) {
-            var current_reply_code = $("#current_reply_code").val();
-            var default_reply_code = $("#default_reply_code").val();
-            if (current_reply_code == default_reply_code) {
-              alert("Yupiee, current reply code is: " + current_reply_code);
-            } else {
-              var url = "{{ route('webhook.updateWebhookReplyCode', {id: webhook.id, code: 'REPLY_CODE'}) }}".replace('REPLY_CODE', default_reply_code)
-              $.ajax({
-                  url: url, 
-                  success: function (data) {
-                      $("#current_reply_code").val(default_reply_code)
-                      alert("Yupiee, current reply code is: " + default_reply_code);
-                  },
-                  cache: false
-              }).fail(function (jqXHR, textStatus, error) {
-                  $("#default_reply_code").val(current_reply_code)
-                  alert(textStatus + ': ' + jqXHR.responseText || error);
-              });
-            }
-          }
-        </script>
-        
-        <input type="hidden" id="current_reply_code" name="current_reply_code" value="{{ webhook.default_reply_code }}" />
-        <select id="default_reply_code" name="default_reply_code">
-          @each(httpCode in httpCodes)
-              <option {{{ webhook.default_reply_code == httpCode.code ? 'value="'+httpCode.code+'" selected' : 'value="'+httpCode.code+'"' }}}>
-                {{httpCode.code}} - {{ httpCode.message }}</option>
-          @endeach
-        </select>
-        <div style="margin-top: 5px;">
-          <button class="button is-warning is-uppercase" onclick="changeStatusCode()">Update</button>
-        </div>
-      </div>
-      @else
-        <p><strong>All Webhooks</strong></p> 
-      @endif
-    
-    <div>
-      @if(!!webhook) 
-        <a href="{{ route('webhook.get', webhook) }}?list=all" class="button is-primary is-uppercase">Edit Webhook</a>
-        <a href="{{ route('webhook.logs', webhook) }}?list=all" class="button is-info is-uppercase">Show All</a>
-        <a href="{{ route('logs.deleteAllOfOne', webhook) }}" class="button is-danger is-uppercase">Delete All</a>
-      @else
-        <a href="{{ route('webhooks.logs') }}?list=all" class="button is-info is-uppercase">Show All</a>
-        <a href="{{ route('logs.deleteAll') }}" class="button is-danger is-uppercase">Delete All</a>
-      @endif
-    </div> 
+<div class="d-flex flex-row justify-content-between" style="padding: 10px 0;">
+
+  @if(!!webhook?.id)
+  <p><strong>{{ webhook.name }}</strong></p>
+  <div class="control">
+    <script>
+      function changeStatusCode(text) {
+        var current_reply_code = $("#current_reply_code").val();
+        var default_reply_code = $("#default_reply_code").val();
+        if (current_reply_code == default_reply_code) {
+          alert("Yupiee, current reply code is: " + current_reply_code);
+        } else {
+          var url = "{{ route('webhook.updateWebhookReplyCode', {id: webhook.id, code: 'REPLY_CODE'}) }}".replace('REPLY_CODE', default_reply_code)
+          $.ajax({
+            url: url,
+            success: function (data) {
+              $("#current_reply_code").val(default_reply_code)
+              alert("Yupiee, current reply code is: " + default_reply_code);
+            },
+            cache: false
+          }).fail(function (jqXHR, textStatus, error) {
+            $("#default_reply_code").val(current_reply_code)
+            alert(textStatus + ': ' + jqXHR.responseText || error);
+          });
+        }
+      }
+    </script>
+
+    <input type="hidden" id="current_reply_code" name="current_reply_code" value="{{ webhook.default_reply_code }}" />
+    <select id="default_reply_code" name="default_reply_code">
+      @each(httpCode in httpCodes)
+      <option {{{ webhook.default_reply_code==httpCode.code ? 'value="' +httpCode.code+'" selected' : 'value="'
+        +httpCode.code+'"' }}}>
+        {{httpCode.code}} - {{ httpCode.message }}
+      </option>
+      @endeach
+    </select>
+    <div style="margin-top: 5px;">
+      <button class="button is-warning is-uppercase" onclick="changeStatusCode()">Update</button>
+    </div>
   </div>
-  
-  <table class="table">
-    <tr>
-      <th>ID</th>
-      @if(!webhook)
-        <th>Webhook ID</th>
-      @endif
-      <th>Method</th>
-      <th>Request Header</th>
-      <th>Request Body</th>
-      <th>Reply Code</th>
-      <th>Reply Body</th>
-      <th>Date</th>
-    </tr>
+  @else
+  <p><strong>All Webhooks</strong></p>
+  @endif
 
-    @each(log in logs)
-    <tr>
-      <td>
-        <a href="{{ route('webhooks.log.delete', log) }}?path={{!webhook ? route('webhooks.logs'): route('webhook.logs', webhook)}}" class="button is-danger link-font" style="margin-top: 5px;">Delete {{log.id}}</<a>
-      </td>
-
-      @if(!webhook)
-        <td>{{log.webhook_id}}</td>
-      @endif
-      <td>
-        {{log.request_headers.ywr_requested_http_method}} 
-	{{{ log.request_body.method ? '<br/>[ReqMethod:'+log.request_body.method+']' : '' }}}
-      </td>
-
-      <td>
-        <div class="popup">
-          <button onclick="togglePopup('reqHead{{log.id}}')">Show</button>
-          <span class="popuptext" id="reqHead{{log.id}}">
-            <button onclick="hidePopup('reqHead{{log.id}}')">X</button><br/>
-            <pre>{{{toJSON(log.request_headers)}}}</pre>
-          </span>
-        </div>
-      </td>
-
-      <td>
-        <div class="popup">
-          <button onclick="togglePopup('reqBody{{log.id}}')">Show</button>
-          <span class="popuptext" id="reqBody{{log.id}}">
-            <button onclick="hidePopup('reqBody{{log.id}}')">X</button><br/>
-            <pre>{{{toJSON(log.request_body)}}}</pre>
-          </span>
-        </div>
-      </td>
-
-      <td>
-       <img src="/tick_{{200 <= log.reply_code && log.reply_code < 300 ? 'yes' : 'no'}}.png" width="15" /> {{log.reply_code}} 
-       {{{ log.request_body.response_status_code ? '<br/>[RSC:'+log.request_body.response_status_code+']' : '' }}}
-       {{{ log.request_body.error_status_code ? '<br/>[ESC:'+log.request_body.error_status_code+']' : '' }}}
-     </td>
-
-      <td>
-        <div class="popup">
-          <button onclick="togglePopup('replyBody{{log.id}}')">Show</button>
-          <span class="popuptext" id="replyBody{{log.id}}">
-            <button onclick="hidePopup('replyBody{{log.id}}')">X</button><br/>
-            <pre>{{{toJSON(log.reply_body)}}}</pre>
-          </span>
-        </div>
-      </td>
-
-      <td onmouseover="parseDate('{{log.updated_at}}', 'date_{{log.id}}')" id="date_{{log.id}}">{{log.updated_at}}</td>
-    </tr>
+  <div>
+    @if(!!webhook)
+    <a href="{{ route('webhook.get', webhook) }}?list=all" class="button is-primary is-uppercase">Edit Webhook</a>
+    <a href="{{ route('webhook.logs', webhook) }}?list=all" class="button is-info is-uppercase">Show All</a>
+    <a href="{{ route('logs.deleteAllOfOne', webhook) }}" class="button is-danger is-uppercase">Delete All</a>
     @else
-    <tr><td colspan="8" class="text-center"><strong>No record found</strong></td></tr>
-    @endeach
+    <a href="{{ route('webhooks.logs') }}?list=all" class="button is-info is-uppercase">Show All</a>
+    <a href="{{ route('logs.deleteAll') }}" class="button is-danger is-uppercase">Delete All</a>
+    @endif
+  </div>
+</div>
 
-  </table>
+<table class="table">
+  <tr>
+    <th>ID</th>
+    @if(!webhook)
+    <th>Webhook ID</th>
+    @endif
+    <th>Method</th>
+    <th>Request Header</th>
+    <th>Request Body</th>
+    <th>Reply Code</th>
+    <th>Reply Body</th>
+    <th>Date</th>
+  </tr>
+
+  @each(log in logs)
+  <tr>
+    <td>
+      <a href="{{ route('webhooks.log.delete', log) }}?path={{!webhook ? route('webhooks.logs'): route('webhook.logs', webhook)}}"
+        class="button is-danger link-font" style="margin-top: 5px;">Delete {{log.id}}</<a>
+    </td>
+
+    @if(!webhook)
+    <td>{{log.webhook_id}}</td>
+    @endif
+    <td>
+      {{log.request_headers.ywr_requested_http_method}}
+      {{{ log.request_body.method ? '<br/>[ReqMethod:'+log.request_body.method+']' : '' }}}
+    </td>
+
+    <td>
+      <div class="popup">
+        <button onclick="togglePopup('reqHead{{log.id}}')">Show</button>
+        <span class="popuptext" id="reqHead{{log.id}}">
+          <button onclick="hidePopup('reqHead{{log.id}}')">X</button><br />
+          <pre>{{{toJSON(log.request_headers)}}}</pre>
+        </span>
+      </div>
+    </td>
+
+    <td>
+      <div class="popup">
+        <button onclick="togglePopup('reqBody{{log.id}}')">Show</button>
+        <span class="popuptext" id="reqBody{{log.id}}">
+          <button onclick="hidePopup('reqBody{{log.id}}')">X</button><br />
+          <pre>{{{toJSON(log.request_body)}}}</pre>
+        </span>
+      </div>
+    </td>
+
+    <td>
+      <img src="/tick_{{200 <= log.reply_code && log.reply_code < 300 ? 'yes' : 'no'}}.png" width="15" />
+      {{log.reply_code}}
+      {{{ log.request_body.response_status_code ? '<br/>[RSC:'+log.request_body.response_status_code+']' : '' }}}
+      {{{ log.request_body.error_status_code ? '<br/>[ESC:'+log.request_body.error_status_code+']' : '' }}}
+    </td>
+
+    <td>
+      <div class="popup">
+        <button onclick="togglePopup('replyBody{{log.id}}')">Show</button>
+        <span class="popuptext" id="replyBody{{log.id}}">
+          <button onclick="hidePopup('replyBody{{log.id}}')">X</button><br />
+          <pre>{{{toJSON(log.reply_body)}}}</pre>
+        </span>
+      </div>
+    </td>
+
+    <td onmouseover="parseDate('{{log.updated_at}}', 'date_{{log.id}}')" id="date_{{log.id}}">{{log.updated_at}}</td>
+  </tr>
+  @else
+  <tr>
+    <td colspan="8" class="text-center"><strong>No record found</strong></td>
+  </tr>
+  @endeach
+
+</table>
 
 @endsection

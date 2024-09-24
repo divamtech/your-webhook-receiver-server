@@ -1,4 +1,4 @@
-import Webhooks from "App/Models/Webhooks";
+import Webhooks from 'App/Models/Webhooks';
 import { https_codes } from './http_codes';
 import WebhookReceive from "App/Models/WebhookReceive";
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
@@ -11,12 +11,12 @@ export default class WebhookController {
 
   async index({ view }: HttpContextContract) {
     const webhooks = await Webhooks.query().orderBy('name', 'asc');
-    return view.render('home', { webhooks: webhooks, webhookHost });
+    return view.render('home', { webhooks, webhookHost });
   }
 
   async getOne({ params, view, response }) {
     try {
-      let webhook: Webhooks | null = null
+      let webhook: Webhooks | null = null;
       const { isUpdate, id } = this._checkID(params);
       if (isUpdate) {
         webhook = await Webhooks.find(id);
@@ -66,7 +66,8 @@ export default class WebhookController {
       } else {
         webhook = await Webhooks.create(data);
       }
-      return response.route('webhooks');
+
+      return response.redirect().toRoute('webhooks');
     } catch (err) {
       console.log(err);
       session.flash({ notification_reply_body: 'Invalid JSON' });
@@ -89,7 +90,7 @@ export default class WebhookController {
         }
       }
     } catch (err) {
-      console.log("Check error" , err)
+      console.log("Check error", err)
     }
     return response.status(400).send('something went wrong.');
   }
@@ -104,7 +105,7 @@ export default class WebhookController {
     } catch (err) {
       console.log(err);
     }
-    return response.route('webhooks');
+    return response.redirect().toRoute('webhooks');
   }
 
   async logs({ params, request, response, view }) {
@@ -120,7 +121,7 @@ export default class WebhookController {
       }
       return view.render('logs', { logs: logs, webhook, https_codes });
     }
-    return response.route('webhooks');
+    return response.redirect().toRoute('webhooks');
   }
 
   async allLogs({ view, request }) {
@@ -151,7 +152,7 @@ export default class WebhookController {
 
   async deleteAllLogs({ response }) {
     await WebhookReceive.query().delete();
-    return response.route('webhooks');
+    return response.redirect().toRoute('webhooks');
   }
 
   async deleteAllLogsOfOne({ params, response }) {
@@ -159,7 +160,8 @@ export default class WebhookController {
     if (valid) {
       await WebhookReceive.query().where('webhook_id', id).delete();
     }
-    return response.route('webhooks');
+
+    return response.redirect().toRoute('webhooks');
   }
 
   _checkID(params) {
