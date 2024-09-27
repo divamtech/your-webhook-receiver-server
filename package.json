@@ -25,7 +25,7 @@
     "db:setup": "node ace db:drop; node ace db:create; node ace migration:run --force; node ace seed --force"
   },
   "dependencies": {
-    "@adonisjs/ace": "^5.0.8",
+    "@adonisjs/ace": "^13.2.0",
     "@adonisjs/auth": "^3.0.7",
     "@adonisjs/bodyparser": "^2.0.5",
     "@adonisjs/cors": "^1.0.7",
